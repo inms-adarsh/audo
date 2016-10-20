@@ -4,14 +4,29 @@
 
     angular
         .module('fuse')
-        .config(routeConfig);
+        .config(routeConfig)
+        .run(routeRun);
+
+    /** @ngInject */
+    function routeRun($rootScope, $state, loginRedirectPath) {
+        // watch for login status changes and redirect if appropriate
+        // auth.$onAuthStateChanged(check);
+
+        // some of our routes may reject resolve promises with the special {authRequired: true} error
+        // this redirects to the login page whenever that is encountered
+        $rootScope.$on("$stateChangeError", function (event, toState, toParams, fromState, fromParams, error) {
+            if (error === "AUTH_REQUIRED") {
+                $state.go(loginRedirectPath);
+            }
+        });
+    }
 
     /** @ngInject */
     function routeConfig($stateProvider, $urlRouterProvider, $locationProvider)
     {
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/sample');
+        $urlRouterProvider.otherwise('/notes');
 
         /**
          * Layout Style Switcher

@@ -7,7 +7,12 @@
      */
     angular
         .module('fuse', [
+             // Common 3rd Party Dependencies
+            'uiGmapgoogle-maps',
+            'textAngular',
+            'xeditable',
 
+            
             // Core
             'app.core',
 
@@ -21,6 +26,12 @@
             'app.quick-panel',
 
             // Sample
-            'app.sample'
+            'app.notes',
+
+            //Auth
+            'app.auth',
+
+            //Firebase
+            'firebase'
         ]);
 })();

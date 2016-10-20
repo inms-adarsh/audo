@@ -66,6 +66,22 @@
         <!-- bower:js -->
         <!-- run `gulp inject` to automatically populate bower script dependencies -->
         <!-- endbower -->
+
+        <!-- Firebase Configruation -->
+        <script>
+            var config = {
+              apiKey: 'AIzaSyBXEUNDMw3FEc4FjZHc3vflbyHacEPy4_4',
+              authDomain: 'audo-17e70.firebaseapp.com',
+              databaseURL: 'https://audo-17e70.firebaseio.com',
+              storageBucket: 'audo-17e70.appspot.com'
+            };
+
+            firebase.initializeApp(config);
+            var rootRef = firebase.database().ref();
+        </script>
+
+        <!-- End firebase configuration --> 
+        
         <!-- endbuild -->
 
         <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
