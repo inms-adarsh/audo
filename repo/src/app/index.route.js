@@ -21,12 +21,13 @@
         });
     }
 
+
     /** @ngInject */
     function routeConfig($stateProvider, $urlRouterProvider, $locationProvider)
     {
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.otherwise('/notes');
+        $urlRouterProvider.otherwise('/notes/inbox');
 
         /**
          * Layout Style Switcher

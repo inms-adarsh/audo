@@ -7,8 +7,12 @@
         .run(runBlock);
 
     /** @ngInject */
-    function runBlock($rootScope, $timeout, $state)
+    function runBlock($rootScope, $timeout, $state, editableThemes)
     {
+        // 3rd Party Dependencies
+        editableThemes.default.submitTpl = '<md-button class="md-icon-button" type="submit" aria-label="save"><md-icon md-font-icon="icon-checkbox-marked-circle" class="md-accent-fg md-hue-1"></md-icon></md-button>';
+        editableThemes.default.cancelTpl = '<md-button class="md-icon-button" ng-click="$form.$cancel()" aria-label="cancel"><md-icon md-font-icon="icon-close-circle" class="icon-cancel"></md-icon></md-button>';
+
         // Activate loading indicator
         var stateChangeStartEvent = $rootScope.$on('$stateChangeStart', function ()
         {

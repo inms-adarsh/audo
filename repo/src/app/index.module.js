@@ -12,7 +12,6 @@
             'textAngular',
             'xeditable',
 
-            
             // Core
             'app.core',
 
