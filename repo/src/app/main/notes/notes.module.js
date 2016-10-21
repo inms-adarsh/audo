@@ -27,7 +27,11 @@
                     Labels : function (msApi)
                     {
                         return msApi.resolve('mail.labels@get');
-                    }
+                    },
+                    currentAuth: ["auth", function (auth) {
+                        // returns a promisse so the resolve waits for it to complete
+                        return auth.$requireSignIn();
+                    }]
                 }
             })
             .state('app.notes.threads', {
@@ -49,6 +53,15 @@
             .state('app.notes.threads.thread', {
                 url      : '/:threadId',
                 bodyClass: 'notes'
+            }).state('app.add_note', {
+                url      : '/notes/add',
+                bodyClass: 'notes',
+                views    : {
+                    'content@app': {
+                        templateUrl: 'app/main/notes/addnote/add-note.html',
+                        controller : 'AddNoteController as vm'
+                    }
+                }
             });
 
         // Translation
@@ -85,6 +98,12 @@
             stateParams: {
                 filter: 'inbox'
             },
+        });
+
+        msNavigationServiceProvider.saveItem('fuse.add', {
+            title      : 'Add Audio Note',
+            icon       : 'icon-email',
+            state      : 'app.add_note'
         });
     }
 })();

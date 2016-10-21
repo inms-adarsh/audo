@@ -27,6 +27,13 @@
             // Sample
             'app.notes',
 
+            //Logistic
+            'app.logistic',
+
+            // Admin
+            'app.admin',
+
+
             //Auth
             'app.auth',
 
