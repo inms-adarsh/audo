@@ -19,7 +19,14 @@
                 },
                 'content@app.pages_auth_reset-password': {
                     templateUrl: 'app/auth/reset-password/reset-password.html',
-                    controller : 'ResetPasswordController as vm'
+                    controller : 'ResetPasswordController as vm',
+                    resolve : {
+                        currentAuth: ["auth", function (auth) {
+                            // returns a promisse so the resolve waits for it to complete
+                            return auth.$requireSignIn();
+                        }]
+                        
+                    }
                 }
             },
             bodyClass: 'reset-password'
@@ -29,11 +36,6 @@
         $translatePartialLoaderProvider.addPart('app/auth/reset-password');
 
         // Navigation
-        msNavigationServiceProvider.saveItem('pages.auth.reset-password', {
-            title : 'Reset Password',
-            state : 'app.pages_auth_reset-password',
-            weight: 6
-        });
     }
 
 })();

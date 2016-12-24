@@ -26,12 +26,15 @@
 
             // Sample
             'app.notes',
-
+            // 'app.books',
+            'app.invoice',
+            'app.payment',
+            'app.tenant',
             //Logistic
-            'app.logistic',
+            // 'app.logistic',
 
             // Admin
-            'app.admin',
+            /*'app.admin',*/
 
 
             //Auth

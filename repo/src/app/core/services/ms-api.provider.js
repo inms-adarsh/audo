@@ -91,7 +91,7 @@
         /* ----------------- */
         /* Service           */
         /* ----------------- */
-        this.$get = function ($log, $q, $resource, $rootScope)
+        this.$get = function ($log, $q, $resource, $rootScope, $firebaseObject, $firebaseArray)
         {
             // Data
 
@@ -101,6 +101,7 @@
                 getBaseUrl: getBaseUrl,
                 register  : register,
                 resolve   : resolve,
+                resolveFirebaseQuery : resolveFirebaseQuery,
                 request   : request
             };
 
@@ -173,6 +174,47 @@
                 // Return the promise
                 return deferred.promise;
             }
+
+            /**
+             * Resolve an Firebase API endpoint
+             *
+             * @param action {string}
+             * @param parameters {object}
+             * @returns {promise|boolean}
+             */
+            function resolveFirebaseQuery(action, parameters, object)
+            {
+                // Create a new deferred object
+                var deferred = $q.defer();
+
+
+                    // Generate the $resource object based on the stored API object
+                    var resourceObject = rootRef.child(action).child(parameters);
+                    var obj;
+
+                    if(object === true ) {
+                        obj = $firebaseObject(resourceObject);
+                    } else {
+                        obj = $firebaseArray(resourceObject);
+                    }
+                    // Make the call...
+                    obj.$loaded().then(function (response)
+                    {
+                        deferred.resolve(response);
+                        $rootScope.$broadcast('msApi::resolveSuccess');
+                    })
+                    .catch(function (response)
+                    {
+                        deferred.reject(response);
+
+                        // Emit an event
+                        $rootScope.$broadcast('msApi::resolveError');
+                    });
+
+                // Return the promise
+                return deferred.promise;
+            }
+
 
             /**
              * Make a request to an API endpoint

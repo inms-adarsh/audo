@@ -7,10 +7,11 @@
         .controller('NotesController', NotesController);
 
     /** @ngInject */
-    function NotesController($scope, $rootScope, $document, $mdDialog, $mdMedia, $mdSidenav, $state, msApi, Folders, Labels)
+    function NotesController($scope, $rootScope, $document, $mdDialog, $mdMedia, $mdSidenav, $state, msApi, $firebaseArray, auth, currentAuth, authService, notesService)
     {
         var vm = this;
 
+        // Data
         // Data
         vm.accounts = {
             'creapond'    : 'johndoe@creapond.com',
@@ -18,8 +19,6 @@
         };
         vm.colors = ['blue-bg', 'blue-grey-bg', 'orange-bg', 'pink-bg', 'purple-bg'];
         vm.selectedAccount = 'creapond';
-        vm.folders = Folders.data;
-        vm.labels = Labels.data;
         vm.loadingThreads = true;
 
         vm.currentFilter = {
@@ -76,26 +75,23 @@
         vm.replyDialog = replyDialog;
 
         vm.toggleSidenav = toggleSidenav;
-
+        vm.loadAudioNotes = loadAudioNotes;
+        vm.removeFolderSelection = removeFolderSelection;
         //////////
 
-        init();
+        loadAudioNotes();
 
         /**
          * Initialize
          */
-        function init()
+        function loadAudioNotes()
         {
-            // Figure out the api name
-            var apiName = 'mail.' + ($state.params.type || 'folder') + '.' + $state.params.filter + '@get';
-
-            // Request the mails
-            msApi.request(apiName).then(
+            notesService.getTenantNotes($state.params.filter).then(
                 // Success
                 function (response)
                 {
                     // Load new threads
-                    vm.threads = response.data;
+                    vm.threads = response;
 
                     // Hide the loading screen
                     vm.loadingThreads = false;
@@ -115,6 +111,7 @@
                 }
             );
         }
+
 
         // Watch screen size to change view modes
         $scope.$watch(function ()
@@ -181,16 +178,14 @@
                 filter: name
             }, {notify: false});
 
-            // Build the API name
-            var apiName = 'mail.folder.' + name + '@get';
 
             // Make the call
-            msApi.request(apiName).then(
+             notesService.getTenantNotes(name).then(
                 // Success
                 function (response)
                 {
                     // Load new threads
-                    vm.threads = response.data;
+                    vm.threads = response;
 
                     // Set the current filter
                     vm.currentFilter = {
@@ -218,7 +213,7 @@
         function loadLabel(name)
         {
             // Update the state without reloading the controller
-            $state.go('app.mail.threads', {
+            $state.go('app.notes.threads', {
                 type  : 'label',
                 filter: name
             }, {notify: false});
@@ -304,7 +299,7 @@
             vm.currentThread = thread;
 
             // Update the state without reloading the controller
-            $state.go('app.mail.threads.thread', {threadId: thread.id}, {notify: false});
+            $state.go('app.notes.threads.thread', {threadId: thread.id}, {notify: false});
         }
 
         /**
@@ -315,7 +310,7 @@
             vm.currentThread = null;
 
             // Update the state without reloading the controller
-            $state.go('app.mail.threads', {
+            $state.go('app.notes.threads', {
                 type  : vm.currentFilter.type,
                 filter: vm.currentFilter.filter
             }, {notify: false});
@@ -621,13 +616,14 @@
 
         function composeDialog(ev)
         {
+            //$state.go('app.add_note');
             $mdDialog.show({
-                controller         : 'ComposeDialogController',
+                controller         : 'AddnoteController',
                 controllerAs       : 'vm',
                 locals             : {
                     selectedMail: undefined
                 },
-                templateUrl        : 'app/main/notes/dialogs/compose/compose-dialog.html',
+                templateUrl        : 'app/main/notes/addnote/addnote.html',
                 parent             : angular.element($document.body),
                 targetEvent        : ev,
                 clickOutsideToClose: true
@@ -662,6 +658,12 @@
         function toggleSidenav(sidenavId)
         {
             $mdSidenav(sidenavId).toggle();
+        }
+
+        function removeFolderSelection() 
+        {
+            vm.isAudioFolderActive = false;
+            vm.isDraftsFolderActive = false;
         }
     }
 })();

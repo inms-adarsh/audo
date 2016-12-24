@@ -6,7 +6,12 @@
         .module('app.notes',
             [
                 // 3rd Party Dependencies
-                'textAngular'
+                'datatables',
+                'flow',
+                'nvd3',
+                'textAngular',
+                'uiGmapgoogle-maps',
+                'xeditable'
             ]
         )
         .config(config);
@@ -18,21 +23,7 @@
         $stateProvider
             .state('app.notes', {
                 abstract: true,
-                url     : '/notes',
-                resolve : {
-                    Folders: function (msApi)
-                    {
-                        return msApi.resolve('mail.folders@get');
-                    },
-                    Labels : function (msApi)
-                    {
-                        return msApi.resolve('mail.labels@get');
-                    },
-                    currentAuth: ["auth", function (auth) {
-                        // returns a promisse so the resolve waits for it to complete
-                        return auth.$requireSignIn();
-                    }]
-                }
+                url     : '/notes'
             })
             .state('app.notes.threads', {
                 url      : '/{type:(?:label)}/:filter',
@@ -48,18 +39,37 @@
                         squash: true
                     }
                 },
+                 resolve : {
+                    currentAuth: ["auth", function (auth) {
+                        // returns a promisse so the resolve waits for it to complete
+                        return auth.$requireSignIn();
+                    }],
+                    tenantInfo: function(auth, authService){
+                        return authService.retrieveTenant();
+                    },
+                    settings: function(adminService) {
+                        return adminService.getCurrentSettings();
+                    }
+                    
+                },
                 bodyClass: 'notes'
-            })
-            .state('app.notes.threads.thread', {
+            }).state('app.notes.threads.thread', {
                 url      : '/:threadId',
                 bodyClass: 'notes'
-            }).state('app.add_note', {
+            })
+            .state('app.add_note', {
                 url      : '/notes/add',
                 bodyClass: 'notes',
                 views    : {
                     'content@app': {
-                        templateUrl: 'app/main/notes/addnote/add-note.html',
-                        controller : 'AddNoteController as vm'
+                        templateUrl: 'app/main/notes/addnote/addnote.html',
+                        controller : 'AddnoteController as vm'
+                    }
+                },
+                resolve  : {
+                    Notes: function (msApi)
+                    {
+                        return msApi.resolve('admin.note@get');
                     }
                 }
             });
@@ -83,27 +93,21 @@
         msApiProvider.register('mail.folder.trash', ['app/data/mail/folders/trash.json']);
         msApiProvider.register('mail.folder.starred', ['app/data/mail/folders/starred.json']);
         msApiProvider.register('mail.folder.important', ['app/data/mail/folders/important.json']);
-
+        msApiProvider.register('admin.note', ['app/data/admin/product.json']);
         // Navigation
-        msNavigationServiceProvider.saveItem('fuse', {
+        msNavigationServiceProvider.saveItem('audo', {
             title : 'SAMPLE',
             group : true,
             weight: 1
         });
 
-         msNavigationServiceProvider.saveItem('fuse.notes', {
-            title      : 'notes',
+        msNavigationServiceProvider.saveItem('audo.notes', {
+            title      : 'Audio Notes',
             icon       : 'icon-email',
             state      : 'app.notes.threads',
             stateParams: {
-                filter: 'inbox'
+                filter: 'audio'
             },
-        });
-
-        msNavigationServiceProvider.saveItem('fuse.add', {
-            title      : 'Add Audio Note',
-            icon       : 'icon-email',
-            state      : 'app.add_note'
         });
     }
 })();

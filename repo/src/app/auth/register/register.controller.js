@@ -7,48 +7,104 @@
         .controller('RegisterController', RegisterController);
 
     /** @ngInject */
-    function RegisterController(auth, $state, $q)
+    function RegisterController(auth, $state, $q, $firebaseArray, $timeout, authService)
     {
         var vm = this;
         // Data
 
-        // Methods
+        // Methods\
+        vm.register = register;
+        vm.redirect = redirect;
         // auth.$onAuthStateChanged(function (authData) {
         //   if (authData) {
         //     $state.go('app.notes');
         //   }
         // });
         //////////
-        vm.register  = function () {
-             auth.$createUserWithEmailAndPassword(vm.form.email, vm.form.password)
-            .then(function (authData) {
-                vm.createProfile(authData);
-                vm.redirect();
-            })
-            .catch(function (error) {
-                console.error("Error: ", error);
+        function register() {
+            var user = {
+              username: vm.form.username,
+              email: vm.form.email,
+              password: vm.form.password,
+              role: 'superuser'
+            };
+            authService.registerUser(user).then(function(data) {
+              authService.createProfile(user, data).then(function(data) {
+                redirect();
+              });
             });
-        };
+        }
 
-        vm.createProfile = function(user) {
-                      // var query =
-          var userObj = rootRef.child('users').child(user.uid);
-          var def = $q.defer();
-          userObj.set({email: vm.form.email, name: vm.form.username}, function (err) {
-            $timeout(function () {
-              if (err) {
-                def.reject(err);
-              }
-              else {
-                def.resolve(userObj);
-              }
-            });
-          });
-          return def.promise;
-        };
+        // function createTenant(user) {
+        //   var tenantObj = rootRef.child('tenants').child(user.uid),
+        //       def = $q.defer();
 
-        vm.redirect = function() {
-            $state.go('app.notes');
-        };
+        //   tenantObj.set({email: vm.form.email, name: vm.form.username}, function (err) {
+        //       if (err) {
+        //         def.reject(err);
+        //       }
+        //       else {
+        //         def.resolve(tenantObj);
+        //       }
+        //    });
+        //   return def.promise;
+        // }
+
+
+        // function createDefaultBook(user) {
+        //     var bookObj = rootRef.child('tenant-books').child(user.uid),
+        //       def = $q.defer(),
+        //       bookData = {
+        //         name: 'Default notebook',
+        //         type: 'default'
+        //       };
+
+        //  $firebaseArray(bookObj).$add(bookData).then(function(ref) {
+        //     $timeout(function () {
+        //       if (ref.key) {
+        //         def.resolve(ref);
+        //       }
+        //     });
+        //   });
+        //   return def.promise;
+        // }
+
+        // function createNotesBook(user) {
+        //   var bookObj = rootRef.child('tenant-notes'),
+        //       def = $q.defer();
+
+        //  $firebaseArray(bookObj).$add(user.uid).then(function(ref) {
+        //     $timeout(function () {
+        //       if (ref.key) {
+        //         def.resolve(ref);
+        //       }
+        //     });
+        //   });
+        //   return def.promise;
+        // }
+
+        // function createTenantUsers(user) {
+        //     var tenantObj = rootRef.child('tenant-users').child(user.uid),
+        //       def = $q.defer(),
+        //       userData = {
+        //         email: vm.form.email, 
+        //         name: vm.form.username,
+        //         userId: user.uid,
+        //         role: 'admin'
+        //       };
+
+        //   $firebaseArray(tenantObj).$add(userData).then(function(ref) {
+        //     $timeout(function () {
+        //       if (ref.key) {
+        //         def.resolve(ref);
+        //       }
+        //     });
+        //   });
+        //   return def.promise;
+        // }
+
+        function redirect() {
+            $state.go('app.tenant');
+        }
     }
 })();

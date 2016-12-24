@@ -1,0 +1,38 @@
+<div id="tenant" class="flex-scrollable" layout="column" ms-scroll>
+    <div id="forgot-password-form-wrapper" layout="column" layout-align="center center">
+        <div id="forgot-password-form" class="md-whiteframe-8dp">
+            <div class="logo md-accent-bg">
+                <span>F</span>
+            </div>
+
+            <div class="title" translate="TENANT.TITLE">Tenant Information</div>
+
+            <form name="TenantForm" novalidate>
+                <md-input-container class="md-block" md-no-float>
+                    <input type="email" name="email" ng-model="vm.form.email" placeholder="Email address"
+                           translate translate-attr-placeholder="TENANT.EMAIL_ADRESS"
+                           ng-pattern="/^.+@.+\..+$/" required>
+                    <div ng-messages="TenantForm.email.$error" role="alert" multiple>
+                        <div ng-message="required">
+                            <span translate="TENANT.ERRORS.EMAIL_REQUIRED">Email field is required</span>
+                        </div>
+                        <div ng-message="pattern">
+                            <span translate="TENANT.ERRORS.EMAIL_MUST_VALID">Email must be a valid e-mail address</span>
+                        </div>
+                    </div>
+                </md-input-container>
+
+                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="RESET MY PASSWORD"
+                           ng-disabled="TenantForm.$invalid || TenantForm.$pristine"
+                           translate="TENANT.SEND_RESET_LINK"
+                           translate-attr-aria-label="TENANT.SEND_RESET_LINK">
+                    SEND RESET LINK
+                </md-button>
+            </form>
+
+            <div class="login" layout="row" layout-align="center center">
+                <a class="link" ui-sref="app.pages_auth_login" translate="TENANT.GO_HOME">Go to Home</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<div id="payment" class="flex-scrollable" layout="column" ms-scroll>
+    <div id="forgot-password-form-wrapper" layout="column" layout-align="center center">
+        <div id="forgot-password-form" class="md-whiteframe-8dp">
+            <div class="logo md-accent-bg">
+                <span>F</span>
+            </div>
+            <p><b><label translate="PAYMENT.AVAILABLECREDIT"></label>{{vm.tenantInfo.credit}}</b></p>
+            <div class="title" translate="PAYMENT.TITLE">Tenant Information</div>
+            <form name="PaymentForm" ng-submit="vm.pay()" novalidate>
+                <md-input-container class="md-block">
+                    <label translate="PAYMENT.COSTPERWORD">Tax Excluded Price</label>
+                    <input type="number" step="0.01" ng-model="vm.settings.cost" disabled>
+                    <md-icon md-font-icon="icon icon-currency-usd"></md-icon>
+                </md-input-container>
+                <md-input-container class="md-block md-icon-float">
+                    <input type="number" step="1" ng-model="vm.payment.count" placeholder="No of words"
+                           translate translate-attr-placeholder="PAYMENT.NOOFWORDS" required>
+                    <div class="cost" layout="row" layout-align="start center">
+                        <span>{{vm.payment.cost | currency:"$":2}}</span>
+                    </div>
+                </md-input-container>
+                <!-- <div layout="column" layout-gt-xs="row" flex>
+                  <md-input-container flex="100" flex-gt-xs="50"  md-no-float>
+                    <label translate="PAYMENT.EMAIL_ADRESS">Email</label>
+                    <input type="email" name="email" ng-model="vm.payment.email"
+                           ng-pattern="/^.+@.+\..+$/" required>
+                    <div ng-messages="TenantForm.email.$error" role="alert" multiple>
+                        <div ng-message="required">
+                            <span translate="PAYMENT.ERRORS.EMAIL_REQUIRED">Email field is required</span>
+                        </div>
+                        <div ng-message="pattern">
+                            <span translate="PAYMENT.ERRORS.EMAIL_MUST_VALID">Email must be a valid e-mail address</span>
+                        </div>
+                    </div>
+                </md-input-container>
+                <md-input-container flex="100" flex-gt-xs="50"  md-no-float>
+                    <label translate="PAYMENT.PHONE_NUMBER">Phone</label>
+                    <input ng-model="vm.payment.phone" type="text" required>
+                </md-input-container>
+              </div>
+              <div layout="column" layout-gt-xs="row" flex>
+                <md-input-container flex="100" flex-gt-xs="50"  md-no-float>
+                    <label translate="PAYMENT.COMPANY">Company</label>
+                    <input ng-model="vm.payment.company" type="text" required>
+                </md-input-container>
+
+                <md-input-container flex="100" flex-gt-xs="50"  md-no-float>
+                    <label translate="PAYMENT.ADDRESS">Address</label>
+                    <input ng-model="vm.payment.address" type="text" required>
+                </md-input-container>
+               </div>
+               <div layout="column" layout-gt-xs="row">
+                    <md-input-container flex>
+                        <label>City</label>
+                        <input type="text" name="city" ng-model="vm.payment.city" required>
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label>State</label>
+                        <input type="text" name="state" ng-model="vm.payment.state" required>
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label>Postal Code</label>
+                        <input name="postalcode" ng-model="vm.payment.postalCode" placeholder="12345"
+                               required ng-pattern="/^[0-9]{6}$/" md-maxlength="6" required>
+                        <div ng-messages="wizardStep2.postalcode.$error"
+                             role="alert" multiple>
+                            <div ng-message="required"><span>You must supply a postal code.</span></div>
+                            <div ng-message="pattern">
+                                <span>That doesn't look like a valid postal code.</span></div>
+                            <div ng-message="md-maxlength">
+                                <span>Postal code can't be longer than 6 characters.</span>
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div> -->
+                <md-button type="submit" class="md-raised md-accent submit-button" aria-label="RESET MY PASSWORD" ng-disabled="PaymentForm.$invalid || PaymentForm.$pristine" translate="PAYMENT.PAY" translate-attr-aria-label="PAYMENT.SAVE">
+                    PAY
+                </md-button>
+            </form>
+            <div class="login" layout="row" layout-align="center center">
+                <a class="link" ui-sref="app.pages_auth_login" translate="PAYMENT.GO_HOME">Go to Home</a>
+            </div>
+        </div>
+    </div>
+</div>

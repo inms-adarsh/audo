@@ -1,6 +1,6 @@
 <div class="thread-header" layout="row" layout-align="space-between center">
     <div>
-        <div class="subject" flex>{{vm.currentThread.subject}}</div>
+        <div class="subject" flex>{{vm.currentThread.title}}</div>
 
         <div class="labels">
             <div class="label" ng-repeat="labelId in vm.currentThread.labels"
@@ -30,7 +30,7 @@
 <div class="thread-content">
     <div class="info" layout="row" layout-align="space-between start">
 
-        <div layout="column" layout-align="start start">
+        <!-- <div layout="column" layout-align="start start">
             <div layout="row" layout-align="start start">
                 <div>
                     <img ng-if="vm.currentThread.from.avatar" alt="{{vm.currentThread.from.name}}"
@@ -75,9 +75,9 @@
                     <span class="detail">{{vm.currentThread.time}}</span>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <md-menu>
+        <!-- <md-menu>
             <md-button aria-label="More" class="md-icon-button"
                        ng-click="$mdOpenMenu($event)"
                        translate translate-aria-label="MAIL.MORE">
@@ -107,10 +107,10 @@
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
-        </md-menu>
+        </md-menu> -->
     </div>
 
-    <div ng-bind-html="vm.currentThread.message"></div>
+    <div ng-bind-html="vm.currentThread.content"></div>
 
 </div>
 

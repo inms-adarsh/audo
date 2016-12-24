@@ -7,7 +7,7 @@
         .controller('ToolbarController', ToolbarController);
 
     /** @ngInject */
-    function ToolbarController($rootScope, $q, $state, $timeout, $mdSidenav, $translate, $mdToast, msNavigationService, auth, loginRedirectPath)
+    function ToolbarController($rootScope, $q, $state, $timeout, $mdSidenav, $translate, $mdToast, msNavigationService, auth, loginRedirectPath, authService)
     {
         var vm = this;
 
@@ -89,6 +89,9 @@
 
             // Get the selected language directly from angular-translate module setting
             vm.selectedLanguage = vm.languages[$translate.preferredLanguage()];
+            authService.getCurrentUser(auth.$getAuth().uid).then(function(data) {
+                vm.user = data;
+            });
         }
 
 
@@ -116,7 +119,8 @@
          */
         function logout()
         {
-            // Do logout here..
+            // Do logout here..            
+            authService.removeCurrentUser();
             auth.$signOut();
             $state.go(loginRedirectPath);
             vm.authData = null;

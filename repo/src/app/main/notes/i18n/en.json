@@ -82,5 +82,15 @@
             "FROM": "From:",
             "DATE": "Date:"
         }
+    },
+    "NOTE": {
+        "NOTE_HEADING": "New Audio Note",
+        "NOTE_EDITOR": "ON DEMAND EDITOR",
+        "NOTE_TITLE": "TITLE",
+        "NOTE_BOOK": "BOOK NAME",
+        "NOTE_CATEGORY": "CATEGORY",
+        "NOTE_CONTENT": "CONTENT",
+        "NOTE_TRANSLATE": "Translate",
+        "NOTE_SETDRAFT": "Save as Draft"
     }
 }

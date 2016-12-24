@@ -7,12 +7,19 @@
         .controller('ForgotPasswordController', ForgotPasswordController);
 
     /** @ngInject */
-    function ForgotPasswordController()
+    function ForgotPasswordController(authService)
     {
         // Data
-
+        var vm = this;
         // Methods
-
+        vm.forgotPassword = forgotPassword;
         //////////
+        
+        /**
+         * Forgot Password Email
+         */
+        function forgotPassword(form) {
+            authService.forgotPassword(form.email);
+        }
     }
 })();

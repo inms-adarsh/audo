@@ -32,12 +32,12 @@
                          ng-if="thread.hasAttachments"></md-icon>
             </div>
 
-            <div class="subject text-truncate">
-                {{thread.subject}}
+            <div class="subject text-truncate title">
+                {{thread.title}}
             </div>
 
             <div class="message text-truncate">
-                {{thread.message | htmlToPlaintext | limitTo:90}}{{thread.message.length > 90 ? '...' : ''}}
+                {{thread.content | htmlToPlaintext | limitTo:90}}{{thread.content.length > 90 ? '...' : ''}}
                 <div class="labels">
                     <div class="label" ng-repeat="labelId in thread.labels"
                          ng-class="vm.getLabelColor(labelId)">{{vm.getLabelTitle(labelId)}}
