@@ -1,0 +1,19 @@
+{
+  "name": "repo_node",
+  "version": "1.0.0",
+  "description": "Node Client for AUDO",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adarsh",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^3.6.4",
+    "firebase-admin": "^4.0.4",
+    "escape-html": "^1.0.3",
+    "node-schedule": "^1.1.0",
+    "nodemailer": "^2.4.1",
+    "promise": "^7.1.1"
+  }
+}
